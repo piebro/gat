@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test</title>
+    <script src="../gat-0.1.js"> </script>
+</head>
+<body>
+<script>
+
+const centeredCanvasObj = gat.getCenteredElement("canvas", [1000,1000], 0.9)
+const canvas = centeredCanvasObj.element
+canvas.style.backgroundColor="#EEEEEE"
+const seedDigitCount = 6;
+const seedBase = 16;
+
+gat.checkAndAddSeedURL(seedDigitCount, seedBase);
+let seedList = gat.getSeedList(seedDigitCount, seedBase);
+
+window.addEventListener("keyup", (event) => {
+    switch(event.keyCode){
+        case 83:
+            gat.downloadCanvas("test_" + seedList.current() + ".png", canvas);
+            break;
+        case 39:
+            gat.setURLQueryParam("seed", seedList.next())
+            draw()
+            break;
+        case 37:
+            gat.setURLQueryParam("seed", seedList.prev())
+            draw();
+            break;
+    }
+});
+
+draw()
+
+function draw(){
+    let ran = gat.Randomizer(parseInt(seedList.current(), 16));
+
+    let ctx = canvas.getContext("2d")
+    ctx.clearRect(0, 0,canvas.width,canvas.height);
+    ctx.beginPath();
+
+
+    ctx.font = "70px Arial";
+    ctx.fillText("press left or right arrow to", 100, 300); 
+    ctx.fillText("navigate", 100, 400); 
+    ctx.fillText("press s to save the canvas", 100, 550); 
+    ctx.fillText("current seed: " + seedList.current(), 100, 700); 
+
+    ctx.lineJoin="round";
+    ctx.lineCap="round";
+    ctx.lineWidth=2;
+    ctx.stroke()
+}
+
+
+
+
+</script>
+</body>
+</html>
