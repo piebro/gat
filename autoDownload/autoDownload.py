@@ -5,7 +5,7 @@ from pathlib import Path
 parser = argparse.ArgumentParser(description='Opens the link(s) in the chrome headless browser, presses the "s" key, waits for a download prompt, confirms it and downloads the data.')
 
 parser.add_argument("link", type=str, nargs="+", help="One or more Links to a .html website or local .html document")
-parser.add_argument("--website_folder", "-wf", type=str, default="", help="Path to a website root folder. All relevant website files need to be in the folder.")
+#parser.add_argument("--localhost_port", "-p", type=int, default="", help="Port of a localy hosted website.")
 parser.add_argument("--output_folder", "-o", type=str, default="", help="Path to the output folder.")
 
 args = parser.parse_args()
@@ -20,9 +20,9 @@ print("saving to: " + args.output_folder)
 
 cmd = [
     "docker run",
-    "-v '{0}:{0}'".format(args.website_folder),
-    "-v '{0}:/script'".format(os.getcwd()),
-    "-v '{0}:/images'".format(args.output_folder),
+    "-v '{}:/script'".format(os.getcwd()),
+    "-v '{}:/images'".format(args.output_folder),
+    "--net='host'",
     "buildkite/puppeteer:latest",
     "bash -c '",
         "node /script/index.js",
