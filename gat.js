@@ -196,8 +196,7 @@ gat.setURLQueryParam = function(param, value){
   let urlParam = new URLSearchParams(window.location.search);
   urlParam.delete(param)
   urlParam.append(param, value)
-  let url = window.location.protocol + window.location.hostname + window.location.pathname + "?" + urlParam.toString();
-  window.history.replaceState("", "", url);
+  window.history.replaceState(null, "", "?" + urlParam.toString());
 }
 
 gat.setURLQueryParams = function(paramValueObj){
@@ -206,8 +205,7 @@ gat.setURLQueryParams = function(paramValueObj){
     urlParam.delete(param)
     urlParam.append(param, paramValueObj[param])
   }
-  let url = window.location.protocol + window.location.hostname + window.location.pathname + "?" + urlParam.toString();
-  window.history.replaceState("", "", url);
+  window.history.replaceState(null, "", "?" + urlParam.toString());
 }
 
 gat.getSeedList = function(seedDigitCount, seedBase){
